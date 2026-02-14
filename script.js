@@ -1,52 +1,44 @@
-// ===================== NHẠC =====================
+// ================== NHẠC ==================
 const bgm = document.getElementById("bgm");
 
 function startMusic() {
-  if (!bgm) return;
-
   bgm.volume = 0.5;
-  bgm.play().catch(() => {});
-
+  bgm.play().catch(()=>{});
   document.removeEventListener("click", startMusic);
-  document.removeEventListener("touchstart", startMusic);
 }
 
 document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
 
 
-// ===================== SAO RƠI + POPUP =====================
-const starsIcon = ["⭐","🌟","✨","💫","🌠"];
-
+// ================== SAO RƠI ==================
+const icons = ["⭐","🌟","✨","💫"];
 const cards = [
-  { img:"anh1.jpg", text:"Chúc bạn năm mới thật nhiều niềm vui ❤️" },
-  { img:"anh2.jpg", text:"Chúc bạn luôn hạnh phúc 💕" },
-  { img:"anh3.jpg", text:"Chúc năm 2026 thật rực rỡ ✨" }
+  {img:"anh1.jpg", text:"Chúc bạn năm mới vui vẻ ❤️"},
+  {img:"anh2.jpg", text:"Chúc bạn hạnh phúc 💕"},
+  {img:"anh3.jpg", text:"Chúc 2026 rực rỡ ✨"}
 ];
 
-let currentIndex = 0;
+let index = 0;
 
 const popup = document.getElementById("popup");
 const popupImg = document.getElementById("popup-img");
 const popupText = document.getElementById("popup-text");
 
 function showCard(){
-  popupImg.src = cards[currentIndex].img;
-  popupText.innerText = cards[currentIndex].text;
+  popupImg.src = cards[index].img;
+  popupText.innerText = cards[index].text;
   popup.style.display = "flex";
-  currentIndex = (currentIndex+1)%cards.length;
+  index = (index + 1) % cards.length;
 }
 
 function createStar(){
   const star = document.createElement("div");
   star.className="star";
-  star.textContent = starsIcon[Math.floor(Math.random()*starsIcon.length)];
+  star.textContent = icons[Math.floor(Math.random()*icons.length)];
   star.style.left = Math.random()*window.innerWidth+"px";
   star.style.fontSize = (20+Math.random()*20)+"px";
   star.style.animationDuration = (5+Math.random()*4)+"s";
-
   star.onclick = showCard;
-
   document.body.appendChild(star);
   setTimeout(()=>star.remove(),9000);
 }
@@ -56,38 +48,16 @@ setInterval(createStar,700);
 popup.onclick=()=>popup.style.display="none";
 
 
-// ===================== PHÁO HOA =====================
+// ================== PHÁO HOA ==================
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 
 function resize(){
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
 resize();
-addEventListener("resize",resize);
-
-class Rocket{
-  constructor(){
-    this.x=Math.random()*canvas.width;
-    this.y=canvas.height;
-    this.targetY=Math.random()*canvas.height*0.5+80;
-    this.speed=7;
-    this.color=`hsl(${Math.random()*360},100%,60%)`;
-  }
-  update(){
-    this.y-=this.speed;
-    this.speed*=0.98;
-  }
-  draw(){
-    ctx.beginPath();
-    ctx.arc(this.x,this.y,3,0,Math.PI*2);
-    ctx.fillStyle=this.color;
-    ctx.shadowColor=this.color;
-    ctx.shadowBlur=15;
-    ctx.fill();
-  }
-}
+window.addEventListener("resize",resize);
 
 class Particle{
   constructor(x,y,vx,vy,color){
@@ -95,19 +65,17 @@ class Particle{
     this.y=y;
     this.vx=vx;
     this.vy=vy;
-    this.life=100;
+    this.life=80;
     this.color=color;
   }
   update(){
     this.x+=this.vx;
     this.y+=this.vy;
-    this.vy+=0.05; // gravity
-    this.vx*=0.99;
-    this.vy*=0.99;
+    this.vy+=0.04;
     this.life--;
   }
   draw(){
-    ctx.globalAlpha=this.life/100;
+    ctx.globalAlpha=this.life/80;
     ctx.beginPath();
     ctx.arc(this.x,this.y,2,0,Math.PI*2);
     ctx.fillStyle=this.color;
@@ -116,92 +84,31 @@ class Particle{
   }
 }
 
-let rockets=[];
 let particles=[];
 
-function explode(x,y,color){
-  const type=Math.floor(Math.random()*4);
-  if(type===0) shapeCircle(x,y,color);
-  else if(type===1) shapeHeart(x,y,color);
-  else if(type===2) shapeStar(x,y,color);
-  else shapeFlower(x,y,color);
-}
-
-function shapeCircle(x,y,color){
+function explode(x,y){
+  const color=`hsl(${Math.random()*360},100%,60%)`;
   const count=80;
   for(let i=0;i<count;i++){
     const angle=(Math.PI*2/count)*i;
     particles.push(new Particle(
       x,y,
-      Math.cos(angle)*4,
-      Math.sin(angle)*4,
+      Math.cos(angle)*3,
+      Math.sin(angle)*3,
       color
     ));
-  }
-}
-
-function shapeHeart(x,y,color){
-  for(let t=0;t<Math.PI*2;t+=0.05){
-    const hx=16*Math.pow(Math.sin(t),3);
-    const hy=13*Math.cos(t)
-            -5*Math.cos(2*t)
-            -2*Math.cos(3*t)
-            -Math.cos(4*t);
-    particles.push(new Particle(
-      x,y,
-      hx*0.25,
-      -hy*0.25,
-      color
-    ));
-  }
-}
-
-function shapeStar(x,y,color){
-  const spikes=5;
-  const outer=5;
-  const inner=2.5;
-  for(let i=0;i<spikes*2;i++){
-    const r=i%2===0?outer:inner;
-    const angle=(Math.PI*i)/spikes;
-    particles.push(new Particle(
-      x,y,
-      Math.cos(angle)*r,
-      Math.sin(angle)*r,
-      color
-    ));
-  }
-}
-
-function shapeFlower(x,y,color){
-  const petals=8;
-  for(let i=0;i<petals;i++){
-    const angle=(Math.PI*2/petals)*i;
-    for(let r=0;r<4;r++){
-      particles.push(new Particle(
-        x,y,
-        Math.cos(angle)*(r+1)*1.5,
-        Math.sin(angle)*(r+1)*1.5,
-        color
-      ));
-    }
   }
 }
 
 function animate(){
-
-  // XÓA SẠCH CANVAS -> KHÔNG LÀM NỀN NHẤP NHÁY
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  if(Math.random()<0.03) rockets.push(new Rocket());
-
-  rockets.forEach((r,i)=>{
-    r.update();
-    r.draw();
-    if(r.y<=r.targetY){
-      explode(r.x,r.y,r.color);
-      rockets.splice(i,1);
-    }
-  });
+  if(Math.random()<0.04){
+    explode(
+      Math.random()*canvas.width,
+      Math.random()*canvas.height*0.5
+    );
+  }
 
   particles.forEach((p,i)=>{
     p.update();
