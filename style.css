@@ -2,7 +2,7 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: sans-serif;
-  background: radial-gradient(circle at center, #0b132b 0%, #050a1f 60%, #020617 100%);
+  background: #020617; /* Trời đêm cố định */
   color: white;
 }
 
@@ -12,19 +12,24 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    radial-gradient(2px 2px at 20% 30%, white, transparent),
-    radial-gradient(1.5px 1.5px at 70% 40%, white, transparent),
-    radial-gradient(1.8px 1.8px at 40% 80%, white, transparent),
-    radial-gradient(1.2px 1.2px at 85% 20%, white, transparent),
-    radial-gradient(1.5px 1.5px at 10% 70%, white, transparent);
-  opacity: 0.6;
+    radial-gradient(2px 2px at 10% 20%, white, transparent),
+    radial-gradient(1.5px 1.5px at 30% 70%, white, transparent),
+    radial-gradient(1.8px 1.8px at 50% 40%, white, transparent),
+    radial-gradient(1.2px 1.2px at 70% 80%, white, transparent),
+    radial-gradient(2px 2px at 85% 25%, white, transparent),
+    radial-gradient(1.5px 1.5px at 60% 10%, white, transparent),
+    radial-gradient(1.5px 1.5px at 90% 60%, white, transparent);
+  opacity: 0.8;
   z-index: 0;
 }
 
+/* Canvas chỉ vẽ pháo hoa */
 #fireworks {
   position: fixed;
   inset: 0;
   z-index: 1;
+  background: transparent;
+  pointer-events: none;
 }
 
 .title {
@@ -33,7 +38,6 @@ body::before {
   width: 100%;
   text-align: center;
   font-size: 40px;
-  text-shadow: 0 0 20px #4cc9f0;
   z-index: 2;
 }
 
@@ -54,7 +58,7 @@ body::before {
 .popup {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0,0,0,0.8);
   display: none;
   justify-content: center;
   align-items: center;
@@ -75,3 +79,4 @@ body::before {
   border-radius: 10px;
   margin-bottom: 10px;
 }
+
