@@ -1,1 +1,71 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #0d1b2a, #000814);
+  font-family: sans-serif;
+  color: white;
+}
+
+/* Canvas */
+#fireworks {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Title */
+.title {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 40px;
+  text-shadow: 0 0 20px #4cc9f0, 0 0 40px white;
+  animation: glow 2s infinite alternate;
+  z-index: 2;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 15px #4cc9f0; }
+  to { text-shadow: 0 0 40px white; }
+}
+
+/* ⭐ Sao rơi */
+.star {
+  position: absolute;
+  cursor: pointer;
+  animation: fall linear forwards;
+  z-index: 5;
+}
+
+@keyframes fall {
+  from { transform: translateY(-60px) rotate(0deg); }
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 320px;
+  text-align: center;
+  color: black;
+}
+
+.popup-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 
