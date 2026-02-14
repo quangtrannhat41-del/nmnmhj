@@ -6,7 +6,7 @@ body {
   color: white;
 }
 
-/* ⭐ Sao nhỏ cố định (không nhấp nháy) */
+/* Sao nền tĩnh */
 body::before {
   content: "";
   position: fixed;
@@ -21,14 +21,12 @@ body::before {
   z-index: 0;
 }
 
-/* Canvas pháo hoa */
 #fireworks {
   position: fixed;
   inset: 0;
   z-index: 1;
 }
 
-/* Tiêu đề */
 .title {
   position: absolute;
   top: 40px;
@@ -39,7 +37,7 @@ body::before {
   z-index: 2;
 }
 
-/* ⭐ Sao rơi */
+/* Sao rơi */
 .star {
   position: absolute;
   cursor: pointer;
