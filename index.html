@@ -1,31 +1,117 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy New Year 2026</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Lá Thư Trái Tim</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #fbeff2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* PHONG THƯ */
+.envelope {
+    width: 220px;
+    height: 140px;
+    background: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: transform 1s;
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 110px solid transparent;
+    border-right: 110px solid transparent;
+    border-top: 70px solid #ffb6c1;
+}
+
+.envelope.open {
+    transform: translateY(150px);
+}
+
+/* LÁ THƯ */
+.letter {
+    width: 200px;
+    height: 260px;
+    background: white;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    transform: translateY(0);
+    transition: all 2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+
+/* LÁ THƯ BAY LÊN */
+.letter.fly {
+    transform: translateY(-300px) scale(1.2);
+    opacity: 1;
+}
+
+/* PHÓNG TO TOÀN MÀN */
+.letter.fullscreen {
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    bottom: 0;
+    transform: translateY(-300px) scale(1);
+}
+
+/* TRÁI TIM */
+.heart {
+    font-size: 80px;
+    color: red;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+.heart.show {
+    opacity: 1;
+}
+</style>
 </head>
 <body>
 
-<canvas id="fireworks"></canvas>
-
-<h1 class="title">✨ Happy New Year 2026 ✨</h1>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <img id="popup-img">
-    <p id="popup-text"></p>
-    <div>(Chạm ra ngoài để đóng)</div>
-  </div>
+<div class="envelope" onclick="openLetter()">
+    <div class="letter" id="letter">
+        <div class="heart" id="heart">❤️</div>
+    </div>
 </div>
 
-<!-- NHẠC -->
-<audio id="bgm" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+<script>
+function openLetter() {
+    const envelope = document.querySelector('.envelope');
+    const letter = document.getElementById('letter');
+    const heart = document.getElementById('heart');
 
-<script src="script.js"></script>
+    envelope.classList.add('open');
+
+    setTimeout(() => {
+        letter.classList.add('fly');
+    }, 800);
+
+    setTimeout(() => {
+        letter.classList.add('fullscreen');
+    }, 2500);
+
+    setTimeout(() => {
+        heart.classList.add('show');
+    }, 3500);
+}
+</script>
+
 </body>
 </html>
